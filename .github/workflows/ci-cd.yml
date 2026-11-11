@@ -36,10 +36,10 @@ jobs:
           cat health.txt
           grep -q "ok" health.txt
 
-deploy:
- needs: docker
- runs-on: ubuntu-latest
- environment: production
- steps:
- - name: Tell Render to deploy the new version
- run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Tell Render to deploy the new version
+        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
