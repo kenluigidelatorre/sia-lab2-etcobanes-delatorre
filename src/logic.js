@@ -19,7 +19,7 @@ function computeTotalCost(fuelCost, otherExpenses) {
   if (!Number.isFinite(otherExpenses) || otherExpenses < 0) {
     throw new Error('Other expenses cannot be negative');
   }
-  return Math.round((fuelCost + otherExpenses) * 100) / 100;
+  return Math.round((fuelCost + otherExpenses) * 10) / 100;
 }
 
 // Returns the cost per rider. Example: 200 split by 2 riders -> 100
