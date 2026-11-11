@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motorcycle Trip Cost</title>
+</head>
+<body>
+  <h1>Motorcycle Trip Cost</h1>
+  <p>Made by: <your full name> and <Ken's full name></p>
+
+  <label>Distance (km): <input id="distance" type="number"></label><br>
+  <label>Fuel efficiency (km per liter): <input id="efficiency" type="number"></label><br>
+  <label>Fuel price (pesos per liter): <input id="price" type="number"></label><br>
+  <label>Other expenses (toll, parking, food): <input id="other" type="number"></label><br>
+  <label>Number of riders: <input id="riders" type="number"></label><br>
+  <button id="calculate">Calculate</button>
+
+  <p id="result"></p>
+  <footer>Version <span id="version"></span></footer>
+
+  <script>
+    document.getElementById('calculate').addEventListener('click', async () => {
+      const response = await fetch('/api/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          distance: document.getElementById('distance').value,
+          efficiency: document.getElementById('efficiency').value,
+          price: document.getElementById('price').value,
+          other: document.getElementById('other').value,
+          riders: document.getElementById('riders').value
+        })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        document.getElementById('result').textContent =
+          'Fuel: P' + data.fuel + ' | Total: P' + data.total + ' | Each rider pays: P' + data.each;
+      } else {
+        document.getElementById('result').textContent = 'Error: ' + data.error;
+      }
+    });
+
+    fetch('/health')
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById('version').textContent = data.version;
+      });
+  </script>
+</body>
+</html>
